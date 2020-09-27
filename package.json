@@ -1,0 +1,53 @@
+{
+  "name": "bgg-top100-bot",
+  "version": "0.1.0",
+  "description": "simple telegram bot",
+  "main": "dist",
+  "engines": {
+    "node": ">=12.6",
+    "npm": ">=6.9"
+  },
+  "dependencies": {
+    "axios": "^0.20.0",
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
+    "redis": "^3.0.2",
+    "xmldom": "^0.3.0",
+    "xpath": "0.0.29"
+  },
+  "devDependencies": {
+    "@now/node": "^1.7.1",
+    "@types/dotenv": "^8.2.0",
+    "@types/jest": "^26.0.14",
+    "@types/node": "^14.11.2",
+    "@types/redis": "^2.8.27",
+    "@types/xmldom": "^0.1.30",
+    "@typescript-eslint/eslint-plugin": "^4.2.0",
+    "@typescript-eslint/parser": "^4.2.0",
+    "eslint": "^7.10.0",
+    "eslint-config-prettier": "^6.12.0",
+    "jest": "^26.4.2",
+    "prettier": "^2.1.2",
+    "ts-jest": "^26.4.0",
+    "typemoq": "^2.1.0",
+    "typescript": "^4.0.3",
+    "vercel": "^20.1.1"
+  },
+  "scripts": {
+    "format": "prettier --write \"src/**/*.ts*\" \"test*/**/*.ts*\"",
+    "lint": "eslint . --ext .ts",
+    "test": "jest --config jestconfig.json --coverage",
+    "start:init": "./node_modules/.bin/vercel",
+    "start:dev": "./node_modules/.bin/vercel dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zinovik/bgg-top100-bot.git"
+  },
+  "author": "Max Zinovik",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/zinovik/bgg-top100-bot/issues"
+  },
+  "homepage": "https://github.com/zinovik/bgg-top100-bot#readme"
+}
