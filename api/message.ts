@@ -12,7 +12,7 @@ dotenv.config();
 
 export default async (_req: NowRequest, res: NowResponse): any => {
   const {
-    query: { token },
+    query: { token, channelId, isDevMode },
   } = _req;
 
   console.log('New request');
@@ -39,7 +39,8 @@ export default async (_req: NowRequest, res: NowResponse): any => {
   }
 
   const configuration = {
-    channelId: process.env.CHANNEL_ID,
+    channelId: typeof channelId === 'string' ? channelId : process.env.CHANNEL_ID,
+    isDevMode: typeof isDevMode === 'string' ? isDevMode === 'on' : process.env.IS_DEV_MODE === 'on',
   };
 
   const main = new Main(

@@ -57,7 +57,7 @@ export class BGGService implements DataService {
     });
 
     return ranks.map((rank, i) => ({
-      rank,
+      rank: Number(rank),
       name: names[i],
       year: years[i],
     }));

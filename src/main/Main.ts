@@ -27,8 +27,12 @@ export class Main implements MainInterface {
     const oldData = await this.databaseService.getData();
 
     const message = this.processService.formatMessage({ newData, oldData });
+    console.log(`${message}\n${message.length}`);
+
     await this.messengerService.sendMessage({ chatId: this.configuration.channelId, text: message });
 
-    await this.databaseService.setData(newData);
+    if (!this.configuration.isDevMode) {
+      await this.databaseService.setData(newData);
+    }
   }
 }

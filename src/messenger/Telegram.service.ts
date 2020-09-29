@@ -11,24 +11,40 @@ export class TelegramService implements MessengerService {
   }
 
   async sendMessage({ chatId, text }: { chatId: string | number; text: string }): Promise<void> {
-    const message = {
-      text,
-      chat_id: chatId,
-      disable_notification: true,
-      parse_mode: 'Markdown',
-    };
+    const chunks = this.stringToChunks(text, 4095);
 
-    try {
-      console.log(`Sending telegram message: ${JSON.stringify(message)}...`);
+    for (const chunk of chunks) {
+      const message = {
+        text: chunk,
+        chat_id: chatId,
+        disable_notification: true,
+        parse_mode: 'Markdown',
+      };
 
-      const { data }: { data: ISendMessageResult } = await axios.post(
-        `${TELEGRAM_API_URL}${this.token}/sendMessage`,
-        message,
-      );
+      try {
+        console.log(`Sending telegram message: ${JSON.stringify(message)}...`);
 
-      console.log(`Telegram message was successfully sent: ${JSON.stringify(data)}`);
-    } catch (error) {
-      console.log('Error sending Telegram message', error);
+        const { data }: { data: ISendMessageResult } = await axios.post(
+          `${TELEGRAM_API_URL}${this.token}/sendMessage`,
+          message,
+        );
+
+        console.log(`Telegram message was successfully sent: ${JSON.stringify(data)}`);
+      } catch (error) {
+        console.log('Error sending Telegram message', error);
+      }
     }
+  }
+
+  private stringToChunks(str: string, size: number): string[] {
+    const chunks: string[] = [];
+
+    const chunksNumber = Math.ceil(str.length / size);
+
+    for (let i = 0; i < chunksNumber; i++) {
+      chunks.push(str.substring(i * size, (i + 1) * size));
+    }
+
+    return chunks;
   }
 }
