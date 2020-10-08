@@ -47,7 +47,7 @@ export class MessageService implements ProcessService {
         decreaseGames.games.push(game);
       }
 
-      const changeString = change > 0 ? ` ⬆️ ${change}` : change < 0 ? ` ⬇️ ${change}` : '';
+      const changeString = change > 0 ? ` ⬆️ +${change}` : change < 0 ? ` ⬇️ ${change}` : '';
 
       return `${list}\n${this.formatGame(game, changeString)}`;
     }, '');
