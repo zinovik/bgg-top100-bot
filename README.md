@@ -76,7 +76,7 @@ The previous week's game list stored in the <a href="https://redislabs.com" targ
 There is only one function in the **Main** class:
 
 ```typescript
-export class Main implements MainInterface {
+export class Main {
   constructor(
     private readonly configuration: Configuration,
     private readonly dataService: DataService,
@@ -137,7 +137,7 @@ We use the **Main** class here, but there is some work we have to do before that
 export default async (
   _req: NowRequest,
   res: NowResponse,
-): any => {
+): Promise<void> => {
   const {
     query: { token, channelId, isDevMode },
   } = _req;
@@ -164,11 +164,10 @@ There is a sort of authentication here. We can’t create the message for every 
 
 ```typescript
 if (token !== process.env.APP_TOKEN) {
-  return res.status(401).send(
-    JSON.stringify({
-      result: 'wrong token',
-    }),
-  );
+  res.status(401).json({
+    result: 'wrong token',
+  });
+  return;
 }
 ```
 
@@ -177,10 +176,7 @@ To build the configuration we use environment variables (by default) and request
 ```typescript
 const configuration = {
   channelId: typeof channelId === 'string' ? channelId : process.env.CHANNEL_ID,
-  isDevMode:
-    typeof isDevMode === 'string'
-      ? isDevMode === 'on'
-      : process.env.IS_DEV_MODE === 'on',
+  isDevMode: typeof isDevMode === 'string' ? isDevMode === 'on' : process.env.IS_DEV_MODE === 'on',
 };
 ```
 
@@ -205,11 +201,9 @@ try {
 That's it - we answer to the Posthook service request.
 
 ```typescript
-  res.status(200).send(
-    JSON.stringify({
-      result: 'success',
-    }),
-  );
+  res.status(200).json({
+    result: 'success',
+  });
 };
 ```
 
@@ -270,12 +264,8 @@ const dom = new DOMParser({
 Then we get ranks and names with years using XPath selectors.
 
 ```typescript
-const ranks = select(GAME_RANKS_X_PATH, dom).map(selectedValue =>
-  selectedValue.textContent.trim(),
-);
-const namesYears = select(GAME_NAMES_YEARS_X_PATH, dom).map(selectedValue =>
-  selectedValue.textContent.trim(),
-);
+const ranks = select(GAME_RANKS_X_PATH, dom).map((selectedValue) => selectedValue.textContent.trim());
+const namesYears = select(GAME_NAMES_YEARS_X_PATH, dom).map((selectedValue) => selectedValue.textContent.trim());
 ```
 
 Here we split names with years to names and years.
@@ -284,7 +274,7 @@ Here we split names with years to names and years.
 const names: string[] = [];
 const years: string[] = [];
 
-namesYears.forEach(nameYear => {
+namesYears.forEach((nameYear) => {
   const endOfNameIndex = nameYear.indexOf('\n');
   const startOfYearIndex = nameYear.indexOf('\t(');
 
@@ -358,17 +348,13 @@ export class RedisService implements DataBaseService {
 
   async setData(data: Data): Promise<void> {
     return new Promise((resolve, reject) => {
-      this.client.set(
-        KEY_NAME,
-        JSON.stringify(data),
-        (err: any, reply: string) => {
-          if (err) {
-            return reject(err);
-          }
+      this.client.set(KEY_NAME, JSON.stringify(data), (err: any, reply: string) => {
+        if (err) {
+          return reject(err);
+        }
 
-          resolve();
-        },
-      );
+        resolve();
+      });
     });
   }
 }
@@ -399,8 +385,8 @@ And the special object for the games by year part.
 
 ```typescript
 const newGames: Game[] = [];
-const droppedGames: Game[] = oldData.games.filter(oldGame =>
-  newData.games.every(newGame => newGame.name !== oldGame.name),
+const droppedGames: Game[] = oldData.games.filter((oldGame) =>
+  newData.games.every((newGame) => newGame.name !== oldGame.name),
 );
 const increaseGames: {
   games: Game[];
@@ -433,9 +419,7 @@ The main cycle to fill all the created arrays.
 To fill the games by year object.
 
 ```typescript
-gamesByYear[game.year] = gamesByYear[game.year]
-  ? gamesByYear[game.year] + 1
-  : 1;
+gamesByYear[game.year] = gamesByYear[game.year] ? gamesByYear[game.year] + 1 : 1;
 
 if (!oldGame) {
   newGames.push(game);
@@ -479,8 +463,7 @@ if (change < 0 && change <= decreaseGames.change) {
 This part creates the rank change string with emojis.
 
 ```typescript
-const changeString =
-  change > 0 ? ` ⬆️ +${change}` : change < 0 ? ` ⬇️ ${change}` : '';
+const changeString = change > 0 ? ` ⬆️ +${change}` : change < 0 ? ` ⬇️ ${change}` : '';
 ```
 
 And creates the new list with the change info.
@@ -496,29 +479,19 @@ And creates the new list with the change info.
 The new games and the games that were dropped from the list are formatted to string too.
 
 ```typescript
-const newGamesString = this.getAdditionalList(
-  '🆕 Game(s) new in Top 100',
-  newGames,
-);
-const droppedGamesString = this.getAdditionalList(
-  '❌ Game(s) dropped out of Top 100',
-  droppedGames,
-);
+const newGamesString = this.getAdditionalList('🆕 Game(s) new in Top 100', newGames);
+const droppedGamesString = this.getAdditionalList('❌ Game(s) dropped out of Top 100', droppedGames);
 ```
 
 Also, the games with the highest rank increase/decrease.
 
 ```typescript
 const increaseGamesString = this.getAdditionalList(
-  `⬆️ Highest ranking increase${
-    increaseGames.change > 0 ? ` (+${increaseGames.change})` : ''
-  }`,
+  `⬆️ Highest ranking increase${increaseGames.change > 0 ? ` (+${increaseGames.change})` : ''}`,
   increaseGames.games,
 );
 const decreaseGamesString = this.getAdditionalList(
-  `⬇️ Highest ranking decrease${
-    decreaseGames.change < 0 ? ` (${decreaseGames.change})` : ''
-  }`,
+  `⬇️ Highest ranking decrease${decreaseGames.change < 0 ? ` (${decreaseGames.change})` : ''}`,
   decreaseGames.games,
 );
 ```
@@ -526,9 +499,9 @@ const decreaseGamesString = this.getAdditionalList(
 And creation the games by year string.
 
 ```typescript
-const gamesByYearString = `📅 Games by Release Year:${Object.keys(
-  gamesByYear,
-).map(year => `\n${year}: ${gamesByYear[year]}`)}`;
+const gamesByYearString = `📅 Games by Release Year:${Object.keys(gamesByYear).map(
+  (year) => `\n${year}: ${gamesByYear[year]}`,
+)}`;
 ```
 
 There is joining everything in the one message string in the end.

@@ -11,7 +11,7 @@ import { TelegramService } from '../src/messenger/Telegram.service';
 
 dotenv.config();
 
-export default async (_req: NowRequest, res: NowResponse): any => {
+export default async (_req: NowRequest, res: NowResponse): Promise<void> => {
   const {
     query: { token, channelId, isDevMode },
   } = _req;
@@ -32,11 +32,10 @@ export default async (_req: NowRequest, res: NowResponse): any => {
   }
 
   if (token !== process.env.APP_TOKEN) {
-    return res.status(401).send(
-      JSON.stringify({
-        result: 'wrong token',
-      }),
-    );
+    res.status(401).json({
+      result: 'wrong token',
+    });
+    return;
   }
 
   const configuration = {
@@ -59,9 +58,7 @@ export default async (_req: NowRequest, res: NowResponse): any => {
     console.error('Unexpected error occurred: ', error.message);
   }
 
-  res.status(200).send(
-    JSON.stringify({
-      result: 'success',
-    }),
-  );
+  res.status(200).json({
+    result: 'success',
+  });
 };

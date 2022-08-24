@@ -1,11 +1,10 @@
-import { MainInterface } from './Main.interface';
 import { Configuration } from './Configuration.interface';
 import { DataService } from '../data/DataService.interface';
 import { DataBaseService } from '../database/DataBaseService.interface';
 import { ProcessService } from '../process/ProcessService.interface';
 import { MessengerService } from '../messenger/MessengerService.interface';
 
-export class Main implements MainInterface {
+export class Main {
   constructor(
     private readonly configuration: Configuration,
     private readonly dataService: DataService,
