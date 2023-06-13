@@ -20,7 +20,7 @@ You can start project as lambda function:
 npm run start:dev
 ```
 
-### 3. you can involve the function locally
+### 3. you can invoke the function locally
 
 ```bash
 curl localhost:3000/api/message?token=
@@ -65,7 +65,7 @@ How does it work?
 
 The bot was created with <a href="https://nodejs.org" target="_blank">Node.js</a> and <a href="https://typescriptlang.org" target="_blank">TypeScript</a>.
 
-It works as a serverless function on the <a href="https://vercel.com" target="_blank">Vercel</a> cloud platform, and the <a href="https://posthook.io" target="_blank">Posthook</a> service is used to involve this function every week.
+It works as a serverless function on the <a href="https://vercel.com" target="_blank">Vercel</a> cloud platform, and the <a href="https://posthook.io" target="_blank">Posthook</a> service is used to invoke this function every week.
 
 The previous week's game list stored in the <a href="https://redislabs.com" target="_blank">Redis Labs</a> service <a href="https://redis.io" target="_blank">Redis</a> database.
 
