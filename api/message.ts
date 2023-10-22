@@ -55,7 +55,7 @@ export default async (_req: NowRequest, res: NowResponse): Promise<void> => {
   try {
     await main.sendMessage();
   } catch (error) {
-    console.error('Unexpected error occurred: ', error.message);
+    console.error('Unexpected error occurred: ', (error as Error).message);
   }
 
   res.status(200).json({

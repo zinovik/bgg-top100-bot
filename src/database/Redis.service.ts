@@ -17,6 +17,7 @@ export class RedisService implements DataBaseService {
 
   async getData(): Promise<Data> {
     return new Promise((resolve, reject) => {
+      // @ts-ignore
       this.client.get(KEY_NAME, (err: any, reply: string) => {
         const emptyData = {
           games: [],

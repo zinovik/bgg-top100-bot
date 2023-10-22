@@ -76,7 +76,7 @@ export class MessageService implements ProcessService {
       timeZoneName: 'short',
       hour: 'numeric',
       minute: 'numeric',
-    };
+    } as const;
     const dateString = new Date(date).toLocaleString('en-US', options);
 
     return `${text}:\n${date.slice(0, 10)} ${dateString}`;

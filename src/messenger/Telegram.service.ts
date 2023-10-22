@@ -39,10 +39,13 @@ export class TelegramService implements MessengerService {
   private stringToChunks(str: string, size: number): string[] {
     const chunks: string[] = [];
 
-    const chunksNumber = Math.ceil(str.length / size);
+    let restOfTheStr = str;
 
-    for (let i = 0; i < chunksNumber; i++) {
-      chunks.push(str.substring(i * size, (i + 1) * size));
+    while (restOfTheStr.length > 0) {
+      const lastNewLineIndexInChunk = restOfTheStr.substring(0, size).lastIndexOf('\n');
+
+      chunks.push(restOfTheStr.substring(0, lastNewLineIndexInChunk === -1 ? size : lastNewLineIndexInChunk));
+      restOfTheStr = restOfTheStr.substring(lastNewLineIndexInChunk === -1 ? size : lastNewLineIndexInChunk + 1);
     }
 
     return chunks;

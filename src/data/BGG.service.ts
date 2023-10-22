@@ -29,8 +29,14 @@ export class BGGService implements DataService {
       },
     }).parseFromString(page);
 
-    const ranks = select(GAME_RANKS_X_PATH, dom).map((selectedValue) => selectedValue.textContent.trim());
-    const namesYears = select(GAME_NAMES_YEARS_X_PATH, dom).map((selectedValue) => selectedValue.textContent.trim());
+    // @ts-ignore
+    const ranks: string[] = (select(GAME_RANKS_X_PATH, dom) || []).map((selectedValue: any) =>
+      selectedValue.textContent.trim(),
+    );
+    // @ts-ignore
+    const namesYears: string[] = (select(GAME_NAMES_YEARS_X_PATH, dom) || []).map((selectedValue: any) =>
+      selectedValue.textContent.trim(),
+    );
 
     const names: string[] = [];
     const years: string[] = [];

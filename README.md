@@ -522,7 +522,7 @@ A function to format the date string.
       timeZoneName: 'short',
       hour: 'numeric',
       minute: 'numeric',
-    };
+    } as const;
     const dateString = new Date(date).toLocaleString(
       'en-US',
       options,
