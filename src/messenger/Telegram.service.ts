@@ -42,6 +42,11 @@ export class TelegramService implements MessengerService {
     let restOfTheStr = str;
 
     while (restOfTheStr.length > 0) {
+      if (restOfTheStr.length <= size) {
+        chunks.push(restOfTheStr);
+        restOfTheStr = '';
+      }
+
       const lastNewLineIndexInChunk = restOfTheStr.substring(0, size).lastIndexOf('\n');
 
       chunks.push(restOfTheStr.substring(0, lastNewLineIndexInChunk === -1 ? size : lastNewLineIndexInChunk));
