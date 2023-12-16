@@ -31,7 +31,7 @@ export class TelegramService implements MessengerService {
 
         console.log(`Telegram message was successfully sent: ${JSON.stringify(data)}`);
       } catch (error) {
-        console.log('Error sending Telegram message', error);
+        console.error('Error sending Telegram message', (error as any)?.response?.data?.description || error);
       }
     }
   }
@@ -45,6 +45,7 @@ export class TelegramService implements MessengerService {
       if (restOfTheStr.length <= size) {
         chunks.push(restOfTheStr);
         restOfTheStr = '';
+        break;
       }
 
       const lastNewLineIndexInChunk = restOfTheStr.substring(0, size).lastIndexOf('\n');
