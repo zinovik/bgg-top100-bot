@@ -3,7 +3,6 @@ import { NowRequest, NowResponse } from '@now/node';
 
 import { ConfigParameterNotDefinedError } from '../src/common/error/ConfigParameterNotDefinedError';
 import { Main } from '../src/main/Main';
-// import { BGGService } from '../src/data/BGG.service';
 import { BGGGamesRanksService } from '../src/data/BGGGamesRanks.service';
 import { RedisService } from '../src/database/Redis.service';
 import { MessageService } from '../src/process/Message.service';
