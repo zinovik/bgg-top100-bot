@@ -64,10 +64,16 @@ gcloud iam service-accounts keys create key-file.json --iam-account=github-actio
 cat key-file.json | base64
 ```
 
-### creating `ENV` value
+### add access to secrets
 
-```bash
-cat env.yaml | base64
+```
+gcloud projects add-iam-policy-binding zinovik-project --member="serviceAccount:306312319198-compute@developer.gserviceaccount.com" --role="roles/secretmanager.secretAccessor"
+```
+
+### add secrets
+
+```
+printf "TELEGRAM_TOKE" | gcloud secrets create bgg-top100-bot-telegram-token --locations=us-central1 --replication-policy="user-managed" --data-file=-
 ```
 
 ---
