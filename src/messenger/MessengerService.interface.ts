@@ -1,3 +1,9 @@
 export interface MessengerService {
-  sendMessage({ chatId, text }: { chatId: string; text: string }): Promise<void>;
+    sendMessage({
+        chatId,
+        text,
+    }: {
+        chatId: string;
+        text: string;
+    }): Promise<void>;
 }

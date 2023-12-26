@@ -2,7 +2,7 @@ import { IMock, Mock } from 'typemoq';
 
 import { Main } from '../../../src/main/Main';
 import { DataService } from '../../../src/data/DataService.interface';
-import { DataBaseService } from '../../../src/database/DataBaseService.interface';
+import { StorageService } from '../../../src/storage/Storage.interface';
 import { ProcessService } from '../../../src/process/ProcessService.interface';
 import { MessengerService } from '../../../src/messenger/MessengerService.interface';
 
@@ -10,7 +10,7 @@ const CHANNEL_ID = '@testChannelId';
 
 describe('Main', () => {
   let dataServiceMock: IMock<DataService>;
-  let dataBaseServiceMock: IMock<DataBaseService>;
+  let storageServiceMock: IMock<StorageService>;
   let processServiceMock: IMock<ProcessService>;
   let messengerServiceMock: IMock<MessengerService>;
 
@@ -18,7 +18,7 @@ describe('Main', () => {
 
   beforeEach(() => {
     dataServiceMock = Mock.ofType<DataService>();
-    dataBaseServiceMock = Mock.ofType<DataBaseService>();
+    storageServiceMock = Mock.ofType<StorageService>();
     processServiceMock = Mock.ofType<ProcessService>();
     messengerServiceMock = Mock.ofType<MessengerService>();
 
@@ -29,7 +29,7 @@ describe('Main', () => {
     main = new Main(
       configuration,
       dataServiceMock.object,
-      dataBaseServiceMock.object,
+      storageServiceMock.object,
       processServiceMock.object,
       messengerServiceMock.object,
     );
@@ -37,7 +37,7 @@ describe('Main', () => {
 
   afterEach(() => {
     dataServiceMock.verifyAll();
-    dataBaseServiceMock.verifyAll();
+    storageServiceMock.verifyAll();
     processServiceMock.verifyAll();
     messengerServiceMock.verifyAll();
   });

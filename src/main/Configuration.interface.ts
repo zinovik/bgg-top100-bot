@@ -1,4 +1,4 @@
 export interface Configuration {
-  channelId: string;
-  isDevMode?: boolean | undefined;
+    channelId: string;
+    isDevMode?: boolean | undefined;
 }

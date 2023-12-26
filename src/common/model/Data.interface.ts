@@ -1,8 +1,9 @@
 export interface Data {
-  games: Array<{
-    rank: number;
-    name: string;
-    year: string;
-  }>;
-  date: string;
+    games: Array<{
+        id: string;
+        rank: number;
+        name: string;
+        year: string;
+    }>;
+    date: string;
 }
