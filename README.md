@@ -33,6 +33,7 @@ curl localhost:8080
 
 ```bash
 gcloud storage buckets create gs://boardgamegeek --location=us-central1
+gcloud storage buckets update gs://boardgamegeek --versioning
 ```
 
 ### create schedulers
