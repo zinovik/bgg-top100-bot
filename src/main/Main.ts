@@ -11,13 +11,7 @@ export class Main {
         private readonly storageService: StorageService,
         private readonly processService: ProcessService,
         private readonly messengerService: MessengerService
-    ) {
-        this.configuration = configuration;
-        this.dataService = dataService;
-        this.storageService = storageService;
-        this.processService = processService;
-        this.messengerService = messengerService;
-    }
+    ) {}
 
     async sendMessage(): Promise<void> {
         const newData = await this.dataService.getData();
