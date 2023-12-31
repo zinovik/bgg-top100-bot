@@ -215,10 +215,9 @@ await main.sendMessage();
 That's it - we answer to the **Google Scheduler** service request.
 
 ```typescript
-    res.status(200).json({
-        result: 'success',
-    });
-};
+res.status(200).json({
+    result: 'success',
+});
 ```
 
 ##### Services<a id="services" /> [⬆️](#agenda)
@@ -231,33 +230,33 @@ There are 4 services in the application:
 4. MessengerService (TelegramService)
 
 **DataService (BGGGamesRanksService)** is used to get the latest data from the BoardGameGeek.
-The parsing logic was moved to the separate **Google Cloud Function**. In this repo we only make a request to it. But you can see some working code below\_
+The parsing logic was moved to the separate **Google Cloud Function**. Now, in this repo we only request it. But you can check how it works before (actually the logic in the separate function is pretty much the same):
 
 The data is fetched from the site's page and parsed with the **parsePage** function.
 
 ```typescript
-  async getData(): Promise<Data> {
+async getData(): Promise<Data> {
     const { data: page } = await axios.get(URL);
 
     const games = this.parsePage(page);
 
     return {
-      games,
-      date: new Date().toISOString(),
+        games,
+        date: new Date().toISOString(),
     };
-  }
+}
 ```
 
 This is the function to parse data from the HTML page to the array of objects we can work with.
 
 ```typescript
-  private parsePage = (
+    private parsePage = (
     page: string,
-  ): Array<{
+): Array<{
     rank: number;
     name: string;
     year: string;
-  }> => {
+}> => {
 ```
 
 In the beginning, we build a Document Object Model with all the elements from the string with the HTML page.
@@ -373,13 +372,13 @@ export class GoogleStorageService implements StorageService {
 
 ```typescript
 export class MessageService implements ProcessService {
-  formatMessage({
+formatMessage({
     newData,
     oldData,
-  }: {
+}: {
     newData: Data;
     oldData: Data;
-  }): string {
+}): string {
 ```
 
 We are starting to create the message: the old and new dates are in the beginning.
@@ -481,11 +480,7 @@ const changeString =
 And creates the new list with the change info.
 
 ```typescript
-      return `${list}\n${this.formatGame(
-        game,
-        changeString,
-      )}`;
-    }, '');
+return `${list}\n${this.formatGame(game, changeString)}`;
 ```
 
 The new games and the games that were dropped from the list are formatted to string too.
@@ -536,52 +531,52 @@ There is joining everything in the one message string in the end.
 A function to format the date string.
 
 ```typescript
-  private getDateString(
+private getDateString(
     text: string,
     date: string,
-  ): string {
+): string {
     const options = {
-      timeZoneName: 'short',
-      hour: 'numeric',
-      minute: 'numeric',
+        timeZoneName: 'short',
+        hour: 'numeric',
+        minute: 'numeric',
     } as const;
     const dateString = new Date(date).toLocaleString(
-      'en-US',
-      options,
+        'en-US',
+        options,
     );
 
     return `${text}:\n${date.slice(0, 10)} ${dateString}`;
-  }
+}
 ```
 
 A function to format additional lists (new games and others) to the string.
 
 ```typescript
-  private getAdditionalList(
+private getAdditionalList(
     text: string,
     games: Game[],
-  ): string {
+): string {
     const gamesString = games
-      .map(game => this.formatGame(game))
-      .join('\n');
+        .map(game => this.formatGame(game))
+        .join('\n');
 
     return `${text}:\n${gamesString || 'none'}`;
-  }
+}
 ```
 
 This function is used to format a single game line.
 
 ```typescript
-  private formatGame(
+private formatGame(
     game: {
-      rank: number;
-      name: string;
-      year: string;
+        rank: number;
+        name: string;
+        year: string;
     },
     changeString = '',
-  ): string {
+): string {
     return `${game.rank}. ${game.name} (${game.year})${changeString}`;
-  }
+}
 }
 ```
 
