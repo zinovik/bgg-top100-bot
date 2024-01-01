@@ -6,6 +6,12 @@ import { GoogleStorageService } from './storage/GoogleStorage.service';
 import { MessageService } from './process/Message.service';
 import { TelegramService } from './messenger/Telegram.service';
 
+const BUCKET_NAME = 'boardgamegeek';
+const FILE_NAME = 'bgg-top100-bot.json';
+const PARSER_URL =
+    'https://us-central1-zinovik-project.cloudfunctions.net/bgg-games-ranks-parser';
+const DEFAULT_CHANNEL = '446618160';
+
 functions.http('main', async (req, res) => {
     console.log('Triggered!');
 
@@ -18,14 +24,14 @@ functions.http('main', async (req, res) => {
     } = req;
 
     const configuration = {
-        channelId: typeof channelId === 'string' ? channelId : '446618160',
+        channelId: typeof channelId === 'string' ? channelId : DEFAULT_CHANNEL,
         isDevMode: typeof isDevMode === 'string' ? isDevMode !== 'off' : true,
     };
 
     const main = new Main(
         configuration,
-        new BGGGamesRanksService(),
-        new GoogleStorageService(),
+        new BGGGamesRanksService(PARSER_URL),
+        new GoogleStorageService(BUCKET_NAME, FILE_NAME),
         new MessageService(),
         new TelegramService(process.env.TELEGRAM_TOKEN)
     );

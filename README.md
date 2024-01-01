@@ -191,7 +191,7 @@ To build the configuration we use some default values and request options (to ov
 
 ```typescript
 const configuration = {
-    channelId: typeof channelId === 'string' ? channelId : '446618160',
+    channelId: typeof channelId === 'string' ? channelId : DEFAULT_CHANNEL,
     isDevMode: typeof isDevMode === 'string' ? isDevMode !== 'off' : true,
 };
 ```
@@ -201,8 +201,8 @@ To use this **Main** class function we have to provide also all the services ins
 ```typescript
 const main = new Main(
     configuration,
-    new BGGGamesRanksService(),
-    new GoogleStorageService(),
+    new BGGGamesRanksService(PARSER_URL),
+    new GoogleStorageService(BUCKET_NAME, FILE_NAME),
     new MessageService(),
     new TelegramService(process.env.TELEGRAM_TOKEN)
 );
