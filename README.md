@@ -1,5 +1,3 @@
-[![Build Status](https://travis-ci.org/zinovik/bgg-top100-bot.svg?branch=master)](https://travis-ci.org/zinovik/bgg-top100-bot)
-
 ![logo](./avatar/bggtop100.png)
 
 # BGG Top 100
