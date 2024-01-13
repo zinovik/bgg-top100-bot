@@ -1,7 +1,7 @@
 import { ProcessService } from './ProcessService.interface';
 import { Data } from '../common/model/Data.interface';
 
-type Game = { rank: number; name: string; year: string };
+type Game = { rank: number; name: string; year: string, id: string };
 
 export class MessageService implements ProcessService {
   formatMessage({ newData, oldData }: { newData: Data; oldData: Data }): string {
@@ -10,14 +10,14 @@ export class MessageService implements ProcessService {
 
     const newGames: Game[] = [];
     const droppedGames: Game[] = oldData.games.filter((oldGame) =>
-      newData.games.every((newGame) => newGame.name !== oldGame.name),
+      newData.games.every((newGame) => newGame.id !== oldGame.id),
     );
     const increaseGames: { games: Game[]; change: number } = { games: [], change: 0 };
     const decreaseGames: { games: Game[]; change: number } = { games: [], change: 0 };
     const gamesByYear: { [year: string]: number } = {};
 
     const gamesList = newData.games.reduce((list, game) => {
-      const oldGame = oldData.games.find((old) => old.name === game.name);
+      const oldGame = oldData.games.find((old) => old.id === game.id);
 
       gamesByYear[game.year] = gamesByYear[game.year] ? gamesByYear[game.year] + 1 : 1;
 
