@@ -9,7 +9,7 @@ import { TelegramService } from './messenger/Telegram.service';
 const BUCKET_NAME = 'boardgamegeek';
 const FILE_NAME = 'bgg-top100-bot.json';
 const PARSER_URL =
-    'https://us-central1-zinovik-project.cloudfunctions.net/bgg-games-ranks-parser';
+    'https://europe-central2-zinovik-project.cloudfunctions.net/bgg-games-ranks-parser';
 const DEFAULT_CHANNEL = '446618160';
 
 functions.http('main', async (req, res) => {
