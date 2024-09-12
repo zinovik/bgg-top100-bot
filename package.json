@@ -14,19 +14,22 @@
         "deploy": "npm run build && cp package*.json dist && gcloud functions deploy bgg-top100-bot --gen2 --trigger-http --runtime nodejs20 --entry-point=main --no-allow-unauthenticated --region=europe-central2 --source=dist --update-build-env-vars=\"GOOGLE_NODE_RUN_SCRIPTS=\" --project zinovik-project --set-secrets=TELEGRAM_TOKEN=bgg-top100-bot-telegram-token:latest"
     },
     "dependencies": {
-        "@google-cloud/functions-framework": "3.3.0",
-        "@google-cloud/storage": "7.7.0",
-        "axios": "1.6.2",
-        "google-auth-library": "9.4.1"
+        "@google-cloud/functions-framework": "3.4.2",
+        "@google-cloud/storage": "7.12.1",
+        "axios": "1.7.7",
+        "google-auth-library": "9.14.1"
     },
     "devDependencies": {
-        "@types/jest": "29.0.1",
-        "@types/node": "20.10.5",
+        "@types/jest": "29.5.12",
+        "@types/node": "22.5.4",
+        "@typescript-eslint/eslint-plugin": "8.5.0",
+        "@typescript-eslint/parser": "8.5.0",
         "env-cmd": "10.1.0",
-        "jest": "29.0.3",
-        "ts-jest": "29.0.0",
+        "eslint": "9.10.0",
+        "jest": "29.7.0",
+        "ts-jest": "29.2.5",
         "typemoq": "2.1.0",
-        "typescript": "5.3.3"
+        "typescript": "5.6.2"
     },
     "author": "Max Zinovik",
     "license": "Apache-2.0",
