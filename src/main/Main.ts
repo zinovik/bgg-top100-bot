@@ -15,7 +15,7 @@ export class Main {
 
     async sendMessage(): Promise<void> {
         const newData = await this.dataService.getData();
-        const oldData = await this.storageService.getData();
+        const oldData = await this.storageService.getData(this.configuration.isDevMode);
 
         const message = this.processService.formatMessage({ newData, oldData });
         console.log(`${message}\n${message && message.length}`);

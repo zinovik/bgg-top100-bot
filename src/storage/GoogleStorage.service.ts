@@ -13,10 +13,25 @@ export class GoogleStorageService implements StorageService {
         this.bucket = storage.bucket(this.bucketName);
     }
 
-    async getData(): Promise<Data> {
-        const file = await this.bucket.file(this.fileName).download();
+    async getData(isDevMode?: boolean): Promise<Data> {
+        try {
+            const file = await this.bucket.file(this.fileName).download();
 
-        return JSON.parse(file.toString());
+            return JSON.parse(file.toString());
+        } catch (_error) {
+            console.warn('Can not read data from Google Storage');
+
+            const emptyData: Data = {
+                games: [],
+                date: new Date().toISOString(),
+            };
+
+            if (isDevMode) {
+                await this.setData(emptyData);
+            }
+
+            return emptyData;
+        }
     }
 
     async setData(data: Data): Promise<void> {
